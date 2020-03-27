@@ -1,0 +1,97 @@
+$(document).ready(function () {
+    $.getJSON("https://covidtracking.com/api/states/daily", function (dailyStats) {
+        
+        /*example horizontal stacked bar chart
+        series: [{
+          name: '0323',
+          data: [44, 55, 41, 37, 22, 43, 21]
+        }, {
+          name: '0322',
+          data: [53, 32, 33, 52, 13, 43, 32]
+        }, {...
+        */
+        var series = [];//name:date,data:[states positiveIncrease]
+        
+        var dailyStatsByState = _.groupBy(dailyStats, "state");
+        var dailyStatsByDate = _.groupBy(dailyStats, "date"); 			
+        var dates = [...new Set(dailyStats.map(x=>x.date))].sort().reverse();
+				var states = [...new Set(dailyStats.map(x=>x.state))].sort();
+        
+        dates.forEach(date=>{	
+        	var dailyStats = dailyStatsByDate[date];
+        	var daysData = [];    
+          states.forEach(state=>{
+          	var dailyStat = dailyStats.find(x=>x.state===state) || {date:date, state:state};
+            daysData.push(dailyStat.positiveIncrease || 0); 
+        	});
+          series.push({
+          	name:date.toString().replace("2020",""), 
+          	data:daysData
+          });          
+        });
+        
+        var options = {
+          series: series,
+      		chart: {
+            type: 'bar',
+            height: 1350,
+            stacked: true,
+            stackType: '100%'
+          },
+          plotOptions: {
+            bar: {
+              horizontal: true,
+            },
+          },
+          stroke: {
+            width: 1,
+            colors: ['#fff']
+          },
+          title: {
+            text: 'New Coronavirus Cases per Day by State.  Represented as a percentage of the states total number of cases.  Hopefully soon we will start to see the percentages drop with each new day indicating we are are past the peak'
+          },
+          xaxis: {
+            categories: states,
+            labels: {
+              formatter: function (val) {
+                return val;// + "K"
+              }
+            }
+          },
+          yaxis: {
+            title: {
+              text: undefined
+            },
+            labels: {
+              formatter: function (val) {
+                return val;// + "K"
+              }
+            }
+            
+          },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return val;// + "K"
+              }
+            }
+          },
+          fill: {
+            opacity: 1
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'left',
+            offsetX: 40
+          }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();    
+        
+      
+    });
+});
+
+
+
