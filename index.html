@@ -1,0 +1,73 @@
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<style>
+.flot {
+    left: 0px;
+    top: 0px;
+    width: 610px;
+    height: 250px;
+}
+#flotTip {
+    padding: 3px 5px;
+    background-color: #000;
+    z-index: 100;
+    color: #fff;
+    opacity: .80;
+    filter: alpha(opacity=85);
+}
+</style>
+
+<div id="placeholder" class="flot"></div>
+
+<script>
+$(document).ready(function () {
+    $.getJSON("https://covidtracking.com/api/states/daily", function (json) {
+        json = json.filter(x=>x.state==="MD");
+        var data = [];
+        var xAxisTicks = [];
+        var barChart = [{label: "daily increase", data: data}]
+        
+        json.forEach(function(x, i){
+        	xAxisTicks.push([i+1,x.date.toString().split("2020")[1]]);
+        	data.push([i+1, x.positiveIncrease || 0]);
+        });
+        console.log(barChart, xAxisTicks);
+        
+         var options = {
+          series: {
+              stack: 1,
+              bars: {
+                  order: 1,
+                  show: 1,
+                  barWidth: 0.1,
+                  fill: 0.8,
+                  align: 'center',
+              },
+          },
+          grid: {
+              hoverable: true,
+              borderWidth: 0
+          },
+          tooltip: true,
+          tooltipOpts: {
+              cssClass: "flotTip",
+              content: "%s: %y",
+              defaultTheme: false
+          },
+          legend: {
+              show: true
+          },
+          xaxis: {
+              ticks: xAxisTicks
+          }
+      };
+
+      $.plot($("#placeholder"), barChart, options);
+        
+      
+    });
+});
+
+
+
+
+</script>
