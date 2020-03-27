@@ -31,7 +31,7 @@ $(document).ready(function () {
           	states.forEach(state=>{
           		var dailyStat = dailyStats.find(x=>x.state===state) || {date:date, state:state};
 		  	var increase = dailyStat.positiveIncrease;
-			if (!dailyStat.positiveIncrease && dailyStat.positiveIncrease < 0) {
+			if (!increase || increase < 0) {
 				increase = 0;
 			}
 			daysData.push(increase); 
