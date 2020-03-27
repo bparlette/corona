@@ -23,19 +23,23 @@ $(document).ready(function () {
         var dailyStatsByState = _.groupBy(dailyStats, "state");
         var dailyStatsByDate = _.groupBy(dailyStats, "date"); 			
         var dates = [...new Set(dailyStats.map(x=>x.date))].sort().reverse();
-				var states = [...new Set(dailyStats.map(x=>x.state))].sort();
+	var states = [...new Set(dailyStats.map(x=>x.state))].sort();
         
         dates.forEach(date=>{	
         	var dailyStats = dailyStatsByDate[date];
         	var daysData = [];    
-          states.forEach(state=>{
-          	var dailyStat = dailyStats.find(x=>x.state===state) || {date:date, state:state};
-            daysData.push(dailyStat.positiveIncrease || 0); 
+          	states.forEach(state=>{
+          		var dailyStat = dailyStats.find(x=>x.state===state) || {date:date, state:state};
+		  	var increase = dailyStat.positiveIncrease;
+			if (!dailyStat.positiveIncrease && dailyStat.positiveIncrease < 0) {
+				increase = 0;
+			}
+			daysData.push(increase); 
         	});
-          series.push({
-          	name:date.toString().replace("2020",""), 
-          	data:daysData
-          });          
+		series.push({
+			name:date.toString().replace("2020",""), 
+			data:daysData
+		});          
         });
         
         var options = {
@@ -56,7 +60,7 @@ $(document).ready(function () {
             colors: ['#fff']
           },
           title: {
-            text: 'New Coronavirus Cases per Day by State.  Represented as a percentage of the states total number of cases.  Hopefully soon we will start to see the percentages drop with each new day indicating we are are past the peak'
+            text: 'New Coronavirus Cases per Day by State.  Represented as a percentage of the states total number of cases.'
           },
           xaxis: {
             categories: states,
