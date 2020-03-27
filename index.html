@@ -1,3 +1,11 @@
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.17.0/apexcharts.min.js"></script>
+
+
+<div id="chart"></div>
+
+<script>
 $(document).ready(function () {
     $.getJSON("https://covidtracking.com/api/states/daily", function (dailyStats) {
         
@@ -92,6 +100,6 @@ $(document).ready(function () {
       
     });
 });
-
+</script>
 
 
