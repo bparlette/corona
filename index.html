@@ -3,9 +3,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.17.0/apexcharts.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
 
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;  
+  padding: 10px;
+}
+.grid-item {
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+</style>
 <div><b>States Coronavirus Cases per Day.  Represented as a percentage of the states total number of cases.  Data from covidtracking.com</b></div>
 <div id="chart"></div>
-<div id="sparkline"></div>
+<div id="sparkline"  class="grid-container"></div>
 
 <script>
 $(document).ready(function () {
@@ -94,8 +106,8 @@ $(document).ready(function () {
           }
         };
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();    
+        //var chart = new ApexCharts(document.querySelector("#chart"), options);
+        //chart.render();    
         
       
 	    
@@ -114,7 +126,7 @@ $(document).ready(function () {
           
           $("#sparkline").append('<div><span>'+state+'</span><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
         });
-        $('.inlinesparkline').sparkline('html', { type: 'bar', width: '90%', height:'40px' });
+        $('.inlinesparkline').sparkline('html', { type: 'bar', width: '1000px', height:'100px' });
       
       
     });
