@@ -124,7 +124,7 @@ $(document).ready(function () {
 			statesData.push(increase); 
         	});
           
-          $("#sparkline").append('<div><span>'+state+'</span><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
+           $("#sparkline").append('<div class="grid-item"><span>'+state+'</span><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
         });
         $('.inlinesparkline').sparkline('html', { type: 'bar', width: '1000px', height:'100px' });
       
