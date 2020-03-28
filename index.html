@@ -1,6 +1,5 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.17.0/apexcharts.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
 
 <style>
@@ -16,7 +15,7 @@
 }
 </style>
 <div><b>States Coronavirus Cases per Day.</b> data from covidtracking.com</div>
-<div id="chart"></div>
+<div id="total"></div>
 <div id="sparkline"  class="grid-container"></div>
 
 <script>
@@ -59,7 +58,7 @@ $(document).ready(function () {
         lessThanPriorDay.push(count);
       });       
        
-       $("#sparkline").append('<div class="grid-item"><span># of states with less cases than the prior day</span><span class="inlinesparkline">'+lessThanPriorDay.join(",")+'</span></div><div class="grid-item"></div><div class="grid-item"></div><div class="grid-item"></div>');	
+       $("#total").append('<div class="grid-item"><span># of states with less cases than the prior day</span><span class="inlinesparkline">'+lessThanPriorDay.join(",")+'</span></div>');	
        
     
 	    
