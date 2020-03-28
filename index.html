@@ -22,96 +22,12 @@
 <script>
 $(document).ready(function () {
     $.getJSON("https://covidtracking.com/api/states/daily", function (dailyStats) {
-        
-        /*example horizontal stacked bar chart
-        series: [{
-          name: '0323',
-          data: [44, 55, 41, 37, 22, 43, 21]
-        }, {
-          name: '0322',
-          data: [53, 32, 33, 52, 13, 43, 32]
-        }, {...
-        */
-        var series = [];//name:date,data:[states positiveIncrease]
-        
+                
         var dailyStatsByState = _.groupBy(dailyStats, "state");
         var dailyStatsByDate = _.groupBy(dailyStats, "date"); 			
         var dates = [...new Set(dailyStats.map(x=>x.date))].sort();
-	var states = [...new Set(dailyStats.map(x=>x.state))].sort();
+	var states = [...new Set(dailyStats.map(x=>x.state))].sort();        
         
-        dates.forEach(date=>{	
-        	var dailyStats = dailyStatsByDate[date];
-        	var daysData = [];    
-          	states.forEach(state=>{
-          		var dailyStat = dailyStats.find(x=>x.state===state) || {date:date, state:state};
-		  	var increase = dailyStat.positiveIncrease || 0;
-			if (increase < 0) {
-				increase = 0;
-			}
-			daysData.push(increase); 
-        	});
-		series.push({
-			name:date.toString().replace("2020",""), 
-			data:daysData
-		});          
-        });
-        
-        var options = {
-          series: series,
-      		chart: {
-            type: 'bar',
-            height: 1250,
-            stacked: true,
-            stackType: '100%'
-          },
-          plotOptions: {
-            bar: {
-              horizontal: true,
-            },
-          },
-          stroke: {
-            width: 1,
-            colors: ['#fff']
-          },
-          //title: {
-          //  text: 'States Coronavirus Cases per Day.  Represented as a percentage of the states total number of cases.  Data from covidtracking.com'
-          //},
-          xaxis: {
-            categories: states,
-            labels: {
-              formatter: function (val) {
-                return val;// + "K"
-              }
-            }
-          },
-          yaxis: {
-            title: {
-              text: undefined
-            }
-          },
-          tooltip: {
-            y: {
-              formatter: function (val) {
-                return val;// + "K"
-              }
-            }
-          },
-          fill: {
-            opacity: 1
-          },
-          legend: {
-            position: 'top',
-            horizontalAlign: 'left',
-            offsetX: 40
-          }
-        };
-
-        //var chart = new ApexCharts(document.querySelector("#chart"), options);
-        //chart.render();    
-        
-      
-	    
-      dates = dates;
        states.forEach(state=>{	
         	var dailyStats = dailyStatsByState[state];
         	var statesData = [];    
