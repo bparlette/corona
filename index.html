@@ -1,9 +1,11 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.17.0/apexcharts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
 
 
 <div id="chart"></div>
+<div id="sparkline"></div>
 
 <script>
 $(document).ready(function () {
@@ -22,7 +24,7 @@ $(document).ready(function () {
         
         var dailyStatsByState = _.groupBy(dailyStats, "state");
         var dailyStatsByDate = _.groupBy(dailyStats, "date"); 			
-        var dates = [...new Set(dailyStats.map(x=>x.date))].sort().reverse();
+        var dates = [...new Set(dailyStats.map(x=>x.date))].sort();
 	var states = [...new Set(dailyStats.map(x=>x.state))].sort();
         
         dates.forEach(date=>{	
@@ -95,6 +97,25 @@ $(document).ready(function () {
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();    
         
+      
+	    
+      dates = dates;
+       states.forEach(state=>{	
+        	var dailyStats = dailyStatsByState[state];
+        	var statesData = [];    
+          	dates.forEach(date=>{
+          		var dailyStat = dailyStats.find(x=>x.date===date) || {date:date, state:state};
+		  	var increase = dailyStat.positiveIncrease || 0;
+			if (increase < 0) {
+				increase = 0;
+			}
+			statesData.push(increase); 
+        	});
+          
+          $("#sparkline").append('<div><span>'+state+'</span><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
+        });
+        $('.inlinesparkline').sparkline();
+      
       
     });
 });
