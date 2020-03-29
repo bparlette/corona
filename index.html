@@ -22,7 +22,9 @@
 $(document).ready(function () {
     $.getJSON("https://covidtracking.com/api/us/daily", function (dailyStats) {	
 	var usData = dailyStats.map(x=>x.positiveIncrease||0).reverse();
-	$("#states").append('<div class="grid-item"><span>US</span><span class="inlinesparkline">'+usData.join(",")+'</span></div>')		     
+	$("#states").prepend('<div class="grid-item"><span>US</span><span class="inlinesparkline">'+usData.join(",")+'</span></div>')		     
+        $('.inlinesparkline').sparkline('html', { type: 'bar', width: '1000px', height:'100px' });
+      
     });
     $.getJSON("https://covidtracking.com/api/states/daily", function (dailyStats) {
                 
