@@ -15,11 +15,15 @@
 }
 </style>
 <div><b>States Coronavirus Cases per Day.</b> data from covidtracking.com</div>
-<div id="total"></div>
-<div id="sparkline"  class="grid-container"></div>
+<div id="lessThanPrior"></div>
+<div id="states"  class="grid-container"></div>
 
 <script>
 $(document).ready(function () {
+    $.getJSON("https://covidtracking.com/api/us/daily", function (dailyStats) {	
+	var usData = dailyStats.map(x=>x.positiveIncrease||0).reverse();
+	$("#states").append('<div class="grid-item"><span>US</span><span class="inlinesparkline">'+usData.join(",")+'</span></div>')		     
+    });
     $.getJSON("https://covidtracking.com/api/states/daily", function (dailyStats) {
                 
         var dailyStatsByState = _.groupBy(dailyStats, "state");
@@ -58,7 +62,7 @@ $(document).ready(function () {
         lessThanPriorDay.push(count);
       });       
        
-       $("#total").append('<div class="grid-item"><span># of states with less cases than the prior day</span><span class="inlinesparkline">'+lessThanPriorDay.join(",")+'</span></div>');	
+       $("#lessThanPrior").append('<div class="grid-item"><span># of states with less cases than the prior day</span><span class="inlinesparkline">'+lessThanPriorDay.join(",")+'</span></div>');	
        
     
 	    
@@ -75,7 +79,7 @@ $(document).ready(function () {
 			statesData.push(increase); 
         	});
           
-           $("#sparkline").append('<div class="grid-item"><span>'+state+'</span><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
+           $("#states").append('<div class="grid-item"><span>'+state+'</span><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
         });
         $('.inlinesparkline').sparkline('html', { type: 'bar', width: '1000px', height:'100px' });
       
