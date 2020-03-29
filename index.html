@@ -14,12 +14,13 @@
   text-align: center;
 }
 </style>
-<div><b>Coronavirus Cases per Day.  Updated <script>new Date().toLocaleDateString();</script></b> data from covidtracking.com</div>
+<div><b>Coronavirus Cases per Day.</b> Updated <span id="date"></span>.  Data from covidtracking.com</div>
 <div id="lessThanPrior"></div>
 <div id="states"  class="grid-container"></div>
 
 <script>
 $(document).ready(function () {
+    $("#date").html(new Date().toLocaleDateString());
     
     $.getJSON("https://covidtracking.com/api/states/daily", function (dailyStats) {
         
