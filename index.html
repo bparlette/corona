@@ -55,7 +55,9 @@ $(document).ready(function () {
 	
 function displayUS(usStats) {
 	var usIncrease = usStats.map(x=>x.positiveIncrease||0).reverse();
-	$("#states").append('<div class="grid-item"><span>US</span><span class="inlinesparkline">'+usIncrease.join(",")+'</span></div>')		     
+	var count = " <span style='font-size:10px'>" + usStats[0].positiveIncrease.toLocaleString() + "</span>";
+	   	
+	$("#states").append('<div class="grid-item"><div>US'+count+'</div><span class="inlinesparkline">'+usIncrease.join(",")+'</span></div>')		     
 }
 	
 function displayLessThanPrior(stateStats){
@@ -93,7 +95,7 @@ function displayLessThanPrior(stateStats){
 		previousDate = date;
 		lessThanPriorDay.push(count);
         });       
-
+	
        $("#lessThanPrior").append('<div class="grid-item"><span># of states with less cases than the prior day</span><span class="inlinesparkline">'+lessThanPriorDay.join(",")+'</span></div>');	
 	
 }
