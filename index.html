@@ -122,8 +122,9 @@ function displayStates(stateStats) {
 			}
 			statesData.push(increase); 
 		});
-
-	   $("#states").append('<div class="grid-item"><span>'+state+'</span><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
+	   	var count = " <span style='fontsize:8px'>" + increase[increase.length -1] + "</span>";
+	   	
+	   	$("#states").append('<div class="grid-item"><span>'+state+count+'</span><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
 	});
 	$('.inlinesparkline').sparkline('html', { type: 'bar', width: '1000px', height:'100px' });	
 }
