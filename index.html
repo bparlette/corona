@@ -24,14 +24,18 @@
   <option value="positiveIncrease">Daily Count</option>
   <option value="total">Total Count</option>
 </select> 
-<br>
+<br><br>
 <div id="states"  class="grid-container"></div>
 
 <script>
 var _stateStats;
 var _usStats;	
 $(document).ready(function () {
-    $("#date").html(new Date().toLocaleDateString());    
+    $("#date").html(new Date().toLocaleDateString());
+
+    $("#sort").change(function(){
+    	displayStates(_stateStats);
+    });
    
     $.getJSON("https://covidtracking.com/api/states/daily", function (stateStats) {        
 	$.getJSON("https://covidtracking.com/api/us/daily", function (usStats) {
@@ -39,6 +43,7 @@ $(document).ready(function () {
 		_usStats = usStats;
 		
 		displayUS(usStats);
+		displayLessThanPrior(stateStats);
 		displayStates(stateStats);
         });      
     });
@@ -49,45 +54,59 @@ function displayUS(usStats) {
 	$("#states").append('<div class="grid-item"><span>US</span><span class="inlinesparkline">'+usIncrease.join(",")+'</span></div>')		     
 }
 	
-function displayStates(stateStats) {
+function displayLessThanPrior(stateStats){
 	var dailyStatsByState = _.groupBy(stateStats, "state");
-	var dailyStatsByDate = _.groupBy(stateStats, "date"); 			
+	var dailyStatsByDate = _.groupBy(stateStats, "date"); 
 	var dates = [...new Set(stateStats.map(x=>x.date))].sort();
-	var states = [...new Set(stateStats.map(x=>x.state))].sort();        
-
+	var states = [...new Set(stateStats.map(x=>x.state))].sort();
 
 	var lessThanPriorDay = [];
 	var previousDate;
 	dates.forEach(date=>{
-	var count = 0;
-	states.forEach(state=>{	
-	  var dailyStats = dailyStatsByDate[date];
-	  var previousDailyStats =  dailyStatsByDate[previousDate || date];
-	  var dailyStat = dailyStats.find(x=>x.state===state) || {positiveIncrease:0};
-	  var previousDailyStat = previousDailyStats.find(x=>x.state===state)|| {positiveIncrease:0};
+		var count = 0;
+		states.forEach(state=>{	
+		  var dailyStats = dailyStatsByDate[date];
+		  var previousDailyStats =  dailyStatsByDate[previousDate || date];
+		  var dailyStat = dailyStats.find(x=>x.state===state) || {positiveIncrease:0};
+		  var previousDailyStat = previousDailyStats.find(x=>x.state===state)|| {positiveIncrease:0};
 
-	  var increase = dailyStat.positiveIncrease;
-	  if (increase <= 0) {
-	    //continue
-	  } else {
-	    var previousIncrease = previousDailyStat.positiveIncrease;
-	    if (previousIncrease < 0) {
-	      previousIncrease = 0;
-	    }
+		  var increase = dailyStat.positiveIncrease;
+		  if (increase <= 0) {
+		    //continue
+		  } else {
+		    var previousIncrease = previousDailyStat.positiveIncrease;
+		    if (previousIncrease < 0) {
+		      previousIncrease = 0;
+		    }
 
-	    if (increase < previousIncrease) {
-	      count++;
-	      console.log(state, date, increase, previousIncrease)
-	    } 
-	  }
+		    if (increase < previousIncrease) {
+		      count++;
+		      console.log(state, date, increase, previousIncrease)
+		    } 
+		  }
 
-	});
-	previousDate = date;
-	lessThanPriorDay.push(count);
-      });       
+		});
+		previousDate = date;
+		lessThanPriorDay.push(count);
+        });       
 
        $("#lessThanPrior").append('<div class="grid-item"><span># of states with less cases than the prior day</span><span class="inlinesparkline">'+lessThanPriorDay.join(",")+'</span></div>');	
-
+	
+}
+	
+function displayStates(stateStats) {	
+	val sort = $("#sort").val()
+	var dailyStatsByState = _.groupBy(stateStats, "state");
+	var dailyStatsByDate = _.groupBy(stateStats, "date"); 
+	var dates = [...new Set(stateStats.map(x=>x.date))].sort();
+	var states = _.sortBy([...new Set(stateStats.map(x=>x.state))], function(state){
+		if (sort === "state") {
+			return state;
+		} else {
+			return dailyStatsByState[state][0][sort];    
+		}
+	});			
+	
        states.forEach(state=>{	
 		var dailyStats = dailyStatsByState[state];
 		var statesData = [];    
