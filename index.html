@@ -124,7 +124,7 @@ function displayStates(stateStats) {
 		});
 	   	var count = " <span style='font-size:10px'>" + dailyStats[0].positiveIncrease.toLocaleString() + "</span>";
 	   	
-	   	$("#states").append('<div class="grid-item"><span>'+state+count+'</span><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
+	   	$("#states").append('<div class="grid-item"><div>'+state+count+'</div><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
 	});
 	$('.inlinesparkline').sparkline('html', { type: 'bar', width: '1000px', height:'100px' });	
 }
