@@ -95,7 +95,7 @@ function displayLessThanPrior(stateStats){
 }
 	
 function displayStates(stateStats) {	
-	val sort = $("#sort").val()
+	var sort = $("#sort").val();
 	var dailyStatsByState = _.groupBy(stateStats, "state");
 	var dailyStatsByDate = _.groupBy(stateStats, "date"); 
 	var dates = [...new Set(stateStats.map(x=>x.date))].sort();
