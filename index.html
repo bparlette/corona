@@ -107,9 +107,9 @@ function displayStates(stateStats) {
 		if (sort === "state") {
 			return state;
 		} else {
-			return dailyStatsByState[state][0][sort];    
+			return -1 * dailyStatsByState[state][0][sort];    
 		}
-	});			
+	});	
 	
        states.forEach(state=>{	
 		var dailyStats = dailyStatsByState[state];
