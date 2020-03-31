@@ -34,7 +34,11 @@ $(document).ready(function () {
     $("#date").html(new Date().toLocaleDateString());
 
     $("#sort").change(function(){
-    	displayStates(_stateStats);
+	$("#lessThanPrior").empty();
+	$("#states").empty();
+    	displayUS(_usStats);
+	displayLessThanPrior(_stateStats);
+	displayStates(_stateStats);
     });
    
     $.getJSON("https://covidtracking.com/api/states/daily", function (stateStats) {        
