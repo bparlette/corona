@@ -135,7 +135,9 @@ function displayStates(stateStats) {
 				    	'<span class="negativesparkline">'+negativeData.join(",")+'</span></div>');		     
 		*/
 	       $("#states").append('<div class="grid-item"><div>'+state+count+'</div><span id="'+state+'" class="inlinesparkline"></span></div>');	
-	       $('#'+state).sparkline(positiveData, { type: 'bar', width: '1000px', height:'100px' });
+	       $('#'+state).sparkline(negativeData, { barColor: '#c0d0f0', type: 'bar', width: '1000px', height:'100px' });
+	       $('#'+state).sparkline(positiveData, { composite: true, type: 'bar', width: '1000px', height:'100px' });
+	       
 	
 	});
 	//$('.negativesparkline').sparkline('html', { type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
