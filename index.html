@@ -16,7 +16,7 @@
 </style>
 <div id="lessThanPrior"></div>
 <br>
-<div>Coronavirus Cases per Day. Updated <span id="date"></span>. Data from <a href="https://covidtracking.com">covidtracking.com</a></div>
+<div>Positive (+) and Negative (-) Coronavirus Cases per Day. Updated <span id="date"></span>. Data from <a href="https://covidtracking.com">covidtracking.com</a></div>
 <br>
 <label for="sort">Sort:</label>
 <select id="sort">
@@ -115,18 +115,24 @@ function displayStates(stateStats) {
 	
        states.forEach(state=>{	
 		var dailyStats = dailyStatsByState[state];
-		var statesData = [];    
+		var positiveData = [];
+	        var negativeData = [];
 		dates.forEach(date=>{
 			var dailyStat = dailyStats.find(x=>x.date===date) || {date:date, state:state};
 			var increase = dailyStat.positiveIncrease || 0;
-			if (increase < 0) {
-				increase = 0;
-			}
-			statesData.push(increase); 
+			if (increase < 0) increase = 0;			
+			positiveData.push(increase);
+			
+			increase = dailyStat.negativeIncrease || 0;
+			if (increase < 0) increase = 0;
+			negativeData.push(increase * -1);
+			
 		});
-	   	var count = " <span style='font-size:10px'>" + dailyStats[0].positiveIncrease.toLocaleString() + "</span>";
+	   	var count = " <span style='font-size:10px'>+" + dailyStats[0].positiveIncrease.toLocaleString() + "/-" + dailyStats[0].negativeIncrease.toLocaleString() + "</span>";
 	   	
-	   	$("#states").append('<div class="grid-item"><div>'+state+count+'</div><span class="inlinesparkline">'+statesData.join(",")+'</span></div>')		     
+	   	$("#states").append('<div class="grid-item"><div>'+state+count+
+				    '</div><span class="inlinesparkline">'+positiveData.join(",")+'</span>'+
+				    	'<span class="inlinesparkline">'+negativeData.join(",")+'</span></div>');		     
 	});
 	$('.inlinesparkline').sparkline('html', { type: 'bar', width: '1000px', height:'100px' });	
 }
