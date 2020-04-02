@@ -134,7 +134,7 @@ function displayStates(stateStats) {
 				    '</div><span class="inlinesparkline">'+positiveData.join(",")+'</span>'+
 				    	'<span class="totalsparkline">'+negativeData.join(",")+'</span></div>');		     
 	});
-	$('.totalsparkline').sparkline('html', { type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
+	$('.inlinesparkline').sparkline('html', { type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
 	$('.inlinesparkline').sparkline('html', { composite:true, type: 'bar', width: '1000px', height:'100px' });
 	
 }
