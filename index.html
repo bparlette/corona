@@ -132,9 +132,10 @@ function displayStates(stateStats) {
 	   	
 	   	$("#states").append('<div class="grid-item"><div>'+state+count+
 				    '</div><span class="inlinesparkline">'+positiveData.join(",")+'</span>'+
-				    	'<span class="inlinesparkline">'+negativeData.join(",")+'</span></div>');		     
+				    	'<span class="totalsparkline">'+negativeData.join(",")+'</span></div>');		     
 	});
-	$('.inlinesparkline').sparkline('html', { type: 'bar', width: '1000px', height:'100px' });	
+	$('.inlinesparkline').sparkline('html', { chartRangeMax: 10000, type: 'bar', width: '1000px', height:'100px' });
+	$('.totalsparkline').sparkline('html', { chartRangeMin: -10000, type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
 }
 </script>
 
