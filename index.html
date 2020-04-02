@@ -130,12 +130,17 @@ function displayStates(stateStats) {
 		});
 	   	var count = " <span style='font-size:10px'>+" + dailyStats[0].positiveIncrease.toLocaleString() + " / -" + dailyStats[0].negativeIncrease.toLocaleString() + "</span>";
 	   	
-	   	$("#states").append('<div class="grid-item"><div>'+state+count+
+	   	/*$("#states").append('<div class="grid-item"><div>'+state+count+
 				    '</div><span class="inlinesparkline">'+positiveData.join(",")+'</span>'+
-				    	'<span class="inlinesparkline">'+negativeData.join(",")+'</span></div>');		     
+				    	'<span class="negativesparkline">'+negativeData.join(",")+'</span></div>');		     
+		*/
+	       $("#states").append('<div class="grid-item"><div>'+state+count+
+				    '</div><span id="'+state+'" class="inlinesparkline"></span></div>');	
+	       $('#'+state).sparkline(positiveData.join(","), { composite:true, type: 'bar', width: '1000px', height:'100px' });
+	
 	});
-	$('.inlinesparkline').sparkline('html', { type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
-	$('.inlinesparkline').sparkline('html', { composite:true, type: 'bar', width: '1000px', height:'100px' });
+	//$('.negativesparkline').sparkline('html', { type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
+	//$('.inlinesparkline').sparkline('html', { composite:true, type: 'bar', width: '1000px', height:'100px' });
 	
 }
 </script>
