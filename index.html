@@ -134,8 +134,8 @@ function displayStates(stateStats) {
 				    '</div><span class="inlinesparkline">'+positiveData.join(",")+'</span>'+
 				    	'<span class="totalsparkline">'+negativeData.join(",")+'</span></div>');		     
 	});
-	$('.inlinesparkline').sparkline('html', { chartRangeMax: 1000, type: 'bar', width: '1000px', height:'100px' });
-	$('.totalsparkline').sparkline('html', { chartRangeMin: -1000, type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
+	$('.inlinesparkline').sparkline('html', { chartRangeMax: 100, type: 'bar', width: '1000px', height:'100px' });
+	$('.totalsparkline').sparkline('html', { chartRangeMin: -100, type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
 }
 </script>
 
