@@ -16,7 +16,7 @@
 </style>
 <div id="lessThanPrior"></div>
 <br>
-<div>Positive (+) and Negative (-) Coronavirus Cases per Day. Updated <span id="date"></span>. Data from <a href="https://covidtracking.com">covidtracking.com</a></div>
+<div>Coronavirus Cases per Day (positive case increase / total test increase). Updated <span id="date"></span>. Data from <a href="https://covidtracking.com">covidtracking.com</a></div>
 <br>
 <label for="sort">Sort:</label>
 <select id="sort">
@@ -116,29 +116,28 @@ function displayStates(stateStats) {
        states.forEach(state=>{	
 		var dailyStats = dailyStatsByState[state];
 		var positiveData = [];
-	        var negativeData = [];
+	        var totalTestResultsIncreaseData = [];
 		dates.forEach(date=>{
 			var dailyStat = dailyStats.find(x=>x.date===date) || {date:date, state:state};
 			var increase = dailyStat.positiveIncrease || 0;
 			if (increase < 0) increase = 0;			
 			positiveData.push(increase);
 			
-			increase = dailyStat.negativeIncrease || 0;
+			increase = dailyStat.totalTestResultsIncrease || 0;
 			if (increase < 0) increase = 0;
-			negativeData.push(increase);
+			totalTestResultsIncreaseData.push(increase);
 			
 		});
-	   	var count = " <span style='font-size:10px'>+" + dailyStats[0].positiveIncrease.toLocaleString() + " / -" + dailyStats[0].negativeIncrease.toLocaleString() + "</span>";
+	   	var count = " <span style='font-size:10px'>" + dailyStats[0].positiveIncrease.toLocaleString() + " / " + dailyStats[0].totalTestResultsIncrease.toLocaleString() + "</span>";
 	   	
 	   	/*$("#states").append('<div class="grid-item"><div>'+state+count+
 				    '</div><span class="inlinesparkline">'+positiveData.join(",")+'</span>'+
 				    	'<span class="negativesparkline">'+negativeData.join(",")+'</span></div>');		     
 		*/
 	       $("#states").append('<div class="grid-item"><div>'+state+count+'</div><span id="'+state+'" class="inlinesparkline"></span></div>');	
-	       $('#'+state).sparkline(negativeData, { barColor: '#c0d0f0', type: 'bar', width: '1000px', height:'100px' });
+	       $('#'+state).sparkline(totalTestResultsIncreaseData, { barColor: '#c0d0f0', type: 'bar', width: '1000px', height:'100px' });
 	       $('#'+state).sparkline(positiveData, { composite: true, type: 'bar', width: '1000px', height:'100px' });
 	       
-	
 	});
 	//$('.negativesparkline').sparkline('html', { type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
 	//$('.inlinesparkline').sparkline('html', { composite:true, type: 'bar', width: '1000px', height:'100px' });
