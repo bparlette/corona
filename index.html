@@ -124,7 +124,7 @@ function displayStates(stateStats) {
 			positiveData.push(increase);
 			
 			increase = dailyStat.negativeIncrease || 0;
-			if (increase < 0) increase = 0;
+			if (increase > 0) increase = 0;
 			negativeData.push(increase * -1);
 			
 		});
