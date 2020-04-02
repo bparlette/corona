@@ -124,18 +124,19 @@ function displayStates(stateStats) {
 			positiveData.push(increase);
 			
 			increase = dailyStat.negativeIncrease || 0;
-			if (increase > 0) increase = 0;
+			if (increase < 0) increase = 0;
 			negativeData.push(increase * -1);
 			
 		});
-	   	var count = " <span style='font-size:10px'>+" + dailyStats[0].positiveIncrease.toLocaleString() + "/-" + dailyStats[0].negativeIncrease.toLocaleString() + "</span>";
+	   	var count = " <span style='font-size:10px'>+" + dailyStats[0].positiveIncrease.toLocaleString() + " / -" + dailyStats[0].negativeIncrease.toLocaleString() + "</span>";
 	   	
 	   	$("#states").append('<div class="grid-item"><div>'+state+count+
 				    '</div><span class="inlinesparkline">'+positiveData.join(",")+'</span>'+
 				    	'<span class="totalsparkline">'+negativeData.join(",")+'</span></div>');		     
 	});
-	$('.inlinesparkline').sparkline('html', { chartRangeMax: 100, type: 'bar', width: '1000px', height:'100px' });
-	$('.totalsparkline').sparkline('html', { chartRangeMin: -100, type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
+	$('.totalsparkline').sparkline('html', { type: 'bar', barColor: '#c0d0f0', width: '1000px', height:'100px'});//composite:true
+	$('.inlinesparkline').sparkline('html', { composite:true, type: 'bar', width: '1000px', height:'100px' });
+	
 }
 </script>
 
