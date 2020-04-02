@@ -134,7 +134,7 @@ function displayStates(stateStats) {
 				    '</div><span class="inlinesparkline">'+positiveData.join(",")+'</span>'+
 				    	'<span class="negativesparkline">'+negativeData.join(",")+'</span></div>');		     
 		*/
-	       var max = _max(positiveData.concat(totalTestResultsIncreaseData));
+	       var max = _.max(positiveData.concat(totalTestResultsIncreaseData));
 	       $("#states").append('<div class="grid-item"><div>'+state+count+'</div><span id="'+state+'" class="inlinesparkline"></span></div>');	
 	       $('#'+state).sparkline(totalTestResultsIncreaseData, { chartRangeMax: max, barColor: '#c0d0f0', type: 'bar', width: '1000px', height:'100px' });
 	       $('#'+state).sparkline(positiveData, { chartRangeMax: max, composite: true, type: 'bar', width: '1000px', height:'100px' });
