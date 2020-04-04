@@ -64,8 +64,9 @@ function display() {
 }
 	
 function displayUS(usStats) {
-	var usIncrease = usStats.map(x=>x.positiveIncrease||0).reverse();
-	var count = " <span style='font-size:10px'>" + usStats[0].positiveIncrease.toLocaleString() + "</span>";
+	var display = $("#display").val();
+	var usIncrease = usStats.map(x=>x[display]||0).reverse();
+	var count = " <span style='font-size:10px'>" + usStats[0][display].toLocaleString() + "</span>";
 	   	
 	$("#states").append('<div class="grid-item"><div>US'+count+'</div><span class="inlinesparkline">'+usIncrease.join(",")+'</span></div>')		     
 }
@@ -139,7 +140,7 @@ function displayStates(stateStats) {
 			totalTestResultsIncreaseData.push(increase);
 			
 		});
-	   	var count = " <span style='font-size:10px'>" + dailyStats[0].display.toLocaleString() + " / " + dailyStats[0].totalTestResultsIncrease.toLocaleString() + "</span>";
+	   	var count = " <span style='font-size:10px'>" + dailyStats[0][display]toLocaleString() + " / " + dailyStats[0].totalTestResultsIncrease.toLocaleString() + "</span>";
 	   	
 	   	/*$("#states").append('<div class="grid-item"><div>'+state+count+
 				    '</div><span class="inlinesparkline">'+positiveData.join(",")+'</span>'+
