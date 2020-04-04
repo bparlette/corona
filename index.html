@@ -18,6 +18,11 @@
 <br>
 <div>Coronavirus Cases per Day. Updated <span id="date"></span>. Data from <a href="https://covidtracking.com">covidtracking.com</a></div>
 <br>
+<label for="display">Display:</label>
+<select id="display">
+  <option value="positiveIncrease">Positive Increase</option>
+  <option value="negativeIncrease">Negative Increase</option>
+</select>
 <label for="sort">Sort:</label>
 <select id="sort">
   <option value="state">State</option>
@@ -34,24 +39,29 @@ $(document).ready(function () {
     $("#date").html(new Date().toLocaleDateString());
 
     $("#sort").change(function(){
-	$("#lessThanPrior").empty();
-	$("#states").empty();
-    	displayUS(_usStats);
-	displayLessThanPrior(_stateStats);
-	displayStates(_stateStats);
+	display();
+    });
+	
+    $("#data").change(function(){	
+    	display();
     });
    
     $.getJSON("https://covidtracking.com/api/states/daily", function (stateStats) {        
 	$.getJSON("https://covidtracking.com/api/us/daily", function (usStats) {
 		_stateStats = stateStats;
 		_usStats = usStats;
-		
-		displayUS(usStats);
-		displayLessThanPrior(stateStats);
-		displayStates(stateStats);
+		display();
         });      
     });
 });
+	
+function display() {
+	$("#lessThanPrior").empty();
+	$("#states").empty();
+	displayUS(_usStats);
+	displayLessThanPrior(_stateStats);
+	displayStates(_stateStats);
+}
 	
 function displayUS(usStats) {
 	var usIncrease = usStats.map(x=>x.positiveIncrease||0).reverse();
@@ -102,6 +112,7 @@ function displayLessThanPrior(stateStats){
 	
 function displayStates(stateStats) {	
 	var sort = $("#sort").val();
+	var display = $("#display").val();
 	var dailyStatsByState = _.groupBy(stateStats, "state");
 	var dailyStatsByDate = _.groupBy(stateStats, "date"); 
 	var dates = [...new Set(stateStats.map(x=>x.date))].sort();
@@ -119,7 +130,7 @@ function displayStates(stateStats) {
 	        var totalTestResultsIncreaseData = [];
 		dates.forEach(date=>{
 			var dailyStat = dailyStats.find(x=>x.date===date) || {date:date, state:state};
-			var increase = dailyStat.positiveIncrease || 0;
+			var increase = dailyStat[display] || 0;
 			if (increase < 0) increase = 0;			
 			positiveData.push(increase);
 			
@@ -128,7 +139,7 @@ function displayStates(stateStats) {
 			totalTestResultsIncreaseData.push(increase);
 			
 		});
-	   	var count = " <span style='font-size:10px'>" + dailyStats[0].positiveIncrease.toLocaleString() + " / " + dailyStats[0].totalTestResultsIncrease.toLocaleString() + "</span>";
+	   	var count = " <span style='font-size:10px'>" + dailyStats[0].display.toLocaleString() + " / " + dailyStats[0].totalTestResultsIncrease.toLocaleString() + "</span>";
 	   	
 	   	/*$("#states").append('<div class="grid-item"><div>'+state+count+
 				    '</div><span class="inlinesparkline">'+positiveData.join(",")+'</span>'+
