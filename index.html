@@ -28,12 +28,13 @@
 	<option value="hospitalizedIncrease">Hospitalized Increase</option>
 	<option value="deathIncrease">Death Increase</option>
 </select>
-<label for="sort">Sort:</label>
+<!--<label for="sort">Sort:</label>
 <select id="sort">
   <option value="state">State</option>
   <option value="positiveIncrease">Daily Count</option>
   <option value="total">Total Count</option>
-</select> 
+</select>
+-->
 <br><br>
 <div id="states"  class="grid-container"></div>
 
@@ -117,7 +118,7 @@ function displayLessThanPrior(stateStats){
 }
 	
 function displayStates(stateStats) {	
-	var sort = $("#sort").val();
+	var sort = $("#display").val();//$("#sort").val();
 	var display = $("#display").val();
 	var dailyStatsByState = _.groupBy(stateStats, "state");
 	var dailyStatsByDate = _.groupBy(stateStats, "date"); 
