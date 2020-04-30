@@ -51,23 +51,8 @@ $(document).ready(function () {
     	display();
     });
    
-    $.ajax({
-	    url: "https://covidtracking.com/api/states/daily",
-    	    dataType: "json",
-	    type: "GET",
-	    xhrFields: { withCredentials: true }
-    }).done(function(stateStats) {
-	$.ajax({
-	    	url: "https://covidtracking.com/api/us/daily",
-    	    	dataType: "json",
-	    	type: "GET",
-	    	xhrFields: { withCredentials: true}
-    	}).done(function(usStats) {
-	    
-    	
-    
-    //$.getJSON("https://covidtracking.com/api/states/daily", function (stateStats) {        
-	//$.getJSON("https://covidtracking.com/api/us/daily", function (usStats) {
+   $.getJSON("https://covidtracking.com/api/v1/states/daily.json", function (stateStats) {        
+	$.getJSON("https://covidtracking.com/api/v1/us/daily.json", function (usStats) {
 		_stateStats = stateStats;
 		_usStats = usStats;
 		display();
