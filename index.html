@@ -53,8 +53,8 @@ $(document).ready(function () {
    
    $.getJSON("https://covidtracking.com/api/v1/states/daily.json", function (stateStats) {        
 	$.getJSON("https://covidtracking.com/api/v1/us/daily.json", function (usStats) {
-		_stateStats = stateStats;
-		_usStats = usStats;
+		_stateStats = stateStats.filter(x=>return x.date>='20200700');
+		_usStats = usStats.filter(x=>return x.date>='20200700');
 		display();
         });      
     });
